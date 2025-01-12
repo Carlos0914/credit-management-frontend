@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native-gesture-handler";
 import AdminView from "@/components/AdminView";
+import { StrictMode } from "react";
 
 export default function HomeScreen() {
   const user = {
@@ -20,16 +21,18 @@ export default function HomeScreen() {
 
   return (
     <GestureHandlerRootView>
-      <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView>
-          <ThemedView style={{ backgroundColor: "orange", padding: 16 }}>
-            <ThemedText style={{ color: "white", fontSize: 18 }}>
-              Hola, {user.name}
-            </ThemedText>
-          </ThemedView>
-          {user.role === "admin" && <AdminView />}
-        </ScrollView>
-      </SafeAreaView>
+      <StrictMode>
+        <SafeAreaView style={{ flex: 1 }}>
+          <ScrollView>
+            <ThemedView style={{ backgroundColor: "orange", padding: 16 }}>
+              <ThemedText style={{ color: "white", fontSize: 18 }}>
+                Hola, {user.name}
+              </ThemedText>
+            </ThemedView>
+            {user.role === "admin" && <AdminView />}
+          </ScrollView>
+        </SafeAreaView>
+      </StrictMode>
     </GestureHandlerRootView>
   );
 }
