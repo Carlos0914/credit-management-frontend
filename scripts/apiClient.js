@@ -1,9 +1,15 @@
 import { BASE_URL } from "@env";
-console.log("Client is running on", BASE_URL);
+console.log("Client is running on ", BASE_URL);
 
 async function apiClient(endpoint, options = {}) {
   const url = `${BASE_URL}/${endpoint}`;
-  const response = await fetch(url, options);
+  console.log("Fetching data from ", url);
+  const response = await fetch(url, {
+    headers: new Headers({
+      "ngrok-skip-browser-warning": "69420",
+    }),
+    ...options,
+  });
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);

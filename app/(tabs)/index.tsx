@@ -23,8 +23,14 @@ export default function HomeScreen() {
     <GestureHandlerRootView>
       <StrictMode>
         <SafeAreaView style={{ flex: 1 }}>
+          {/* , maxWidth: 420, alignSelf: "center" }}> */}
           <ScrollView>
-            <ThemedView style={{ backgroundColor: "orange", padding: 16 }}>
+            <ThemedView
+              style={{
+                backgroundColor: "darkorange",
+                padding: 16,
+              }}
+            >
               <ThemedText style={{ color: "white", fontSize: 18 }}>
                 Hola, {user.name}
               </ThemedText>
