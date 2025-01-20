@@ -20,26 +20,22 @@ export default function HomeScreen() {
   };
 
   return (
-    <GestureHandlerRootView>
-      <StrictMode>
-        <SafeAreaView style={{ flex: 1 }}>
-          {/* , maxWidth: 420, alignSelf: "center" }}> */}
-          <ScrollView>
-            <ThemedView
-              style={{
-                backgroundColor: "darkorange",
-                padding: 16,
-              }}
-            >
-              <ThemedText style={{ color: "white", fontSize: 18 }}>
-                Hola, {user.name}
-              </ThemedText>
-            </ThemedView>
-            {user.role === "admin" && <AdminView />}
-          </ScrollView>
-        </SafeAreaView>
-      </StrictMode>
-    </GestureHandlerRootView>
+    <SafeAreaView style={{ flex: 1 }}>
+      {/* , maxWidth: 420, alignSelf: "center" }}> */}
+      <ScrollView>
+        <ThemedView
+          style={{
+            backgroundColor: "darkorange",
+            padding: 16,
+          }}
+        >
+          <ThemedText style={{ color: "white", fontSize: 18 }}>
+            Hola, {user.name}
+          </ThemedText>
+        </ThemedView>
+        {user.role === "admin" && <AdminView />}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

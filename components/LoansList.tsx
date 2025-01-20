@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ThemedText } from "./ThemedText";
 import client from "../scripts/apiClient";
 import { ThemedView } from "./ThemedView";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { Button, Text, useColorScheme, View } from "react-native";
 import {
   BaseButton,
@@ -11,6 +11,7 @@ import {
   RectButton,
   TextInput,
 } from "react-native-gesture-handler";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export default function LoansList() {
   const isFocused = useIsFocused();
@@ -18,6 +19,7 @@ export default function LoansList() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     isFocused &&
@@ -43,6 +45,23 @@ export default function LoansList() {
 
     return () => clearTimeout(debounceSearch);
   }, [search, data]);
+
+  const getPaymentStatus = (loan: any) => {
+    const nextPaymentDate = new Date(loan.next_payment_date);
+    const currentDate = new Date();
+    const timeDifference =
+      new Date(nextPaymentDate.toDateString()).getTime() -
+      new Date(currentDate.toDateString()).getTime();
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+    if (daysDifference > 3) {
+      return "paid";
+    } else if (daysDifference >= 0 && daysDifference <= 3) {
+      return "due";
+    } else {
+      return "overdue";
+    }
+  };
 
   return (
     <ThemedView>
@@ -87,7 +106,12 @@ export default function LoansList() {
                 marginBottom: 6,
                 borderBottomWidth: 0,
                 textAlign: "center",
-                backgroundColor: "green",
+                backgroundColor:
+                  getPaymentStatus(loan) === "paid"
+                    ? "green"
+                    : getPaymentStatus(loan) === "due"
+                    ? "darkorange"
+                    : "darkred",
                 borderColor: colorScheme === "dark" ? "white" : "black",
                 borderWidth: 0,
                 color: "white",
@@ -139,6 +163,11 @@ export default function LoansList() {
                   borderBottomLeftRadius: 10,
                   borderRightWidth: 1,
                   borderRightColor: "white",
+                }}
+                onPress={() => {
+                  navigation.navigate(
+                    ...(["loan-details", { id: loan.loan_id }] as never)
+                  );
                 }}
               >
                 <ThemedText lightColor="white">Detalles</ThemedText>
