@@ -1,8 +1,7 @@
-import { BASE_URL } from "@env";
-console.log("Client is running on ", BASE_URL);
+console.log("Client is running on ", process.env.EXPO_PUBLIC_BASE_URL);
 
 async function apiClient(endpoint, options = {}) {
-  const url = `${BASE_URL}/${endpoint}`;
+  const url = `${process.env.EXPO_PUBLIC_BASE_URL}/${endpoint}`;
   console.log("Fetching data from ", url);
   const response = await fetch(url, {
     headers: new Headers({
